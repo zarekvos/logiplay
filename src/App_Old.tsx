@@ -4,12 +4,6 @@ import { WalletProvider } from './contexts/WalletContext';
 import ModernHomePage from './components/ModernHomePage';
 import ModernAboutPage from './components/ModernAboutPage';
 import GameNavbar from './components/GameNavbar';
-import GameContainer from './components/GameContainer';{ useState } from 'react';
-import { GameProvider } from './contexts/GameContext';
-import { WalletProvider } from './contexts/WalletContext';
-import ModernHomePage from './components/ModernHomePage';
-import AboutPage from './components/AboutPage';
-import GameNavbar from './components/GameNavbar';
 import GameContainer from './components/GameContainer';
 
 function App() {
