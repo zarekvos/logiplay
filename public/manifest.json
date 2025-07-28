@@ -1,0 +1,22 @@
+{
+  "name": "LogiPlay - Web3 Logic Games",
+  "short_name": "LogiPlay",
+  "description": "Challenge your mind with Web3-powered logic games. Earn $LOGIQ tokens!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "/Logiq.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Logiq.png", 
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
