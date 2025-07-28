@@ -3,7 +3,7 @@ import { useGame } from '../contexts/GameContext';
 import { useWallet } from '../contexts/WalletContext';
 
 export default function ClaimedTokensDisplay() {
-  const { totalClaimedTokens, claimHistory, getUserLevel, getNextLevelTokens, getLevelProgress, getMilestone, formatTokens: gameFormatTokens, isDemo, demoTokens } = useGame();
+  const { totalClaimedTokens, claimHistory, getUserLevel, getNextLevelTokens, getLevelProgress, getMilestone, formatTokens: gameFormatTokens, isDemo, demoTokens, gameState } = useGame();
   const { isConnected, connectWallet } = useWallet();
   const [showHistory, setShowHistory] = useState(false);
 
@@ -36,7 +36,7 @@ export default function ClaimedTokensDisplay() {
     <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-white flex items-center">
-          💰 {isDemo ? 'Demo Tokens' : 'Total Claimed Tokens'}
+          💰 Available Tokens
         </h3>
         <button
           onClick={() => setShowHistory(!showHistory)}
@@ -46,26 +46,24 @@ export default function ClaimedTokensDisplay() {
         </button>
       </div>
 
-      {/* Demo Mode Indicator */}
-      {isDemo && (
-        <div className="bg-orange-500/20 border border-orange-400/30 rounded-lg p-3 mb-4">
+      {/* Connect Wallet CTA (only when not connected and has tokens) */}
+      {!isConnected && (isDemo ? demoTokens : gameState.tokens) > 0 && (
+        <div className="bg-blue-500/20 border border-blue-400/30 rounded-lg p-3 mb-4">
           <div className="flex items-center space-x-2">
-            <span className="text-orange-400 text-lg">🎮</span>
+            <span className="text-blue-400 text-lg">💰</span>
             <div className="flex-1">
-              <p className="text-orange-200 font-medium text-sm">Demo Mode Active</p>
-              <p className="text-orange-300/80 text-xs">
-                Tokens shown are for demo only. Connect wallet to earn real $LOGIQ!
+              <p className="text-blue-200 font-medium text-sm">Ready to Claim Rewards</p>
+              <p className="text-blue-300/80 text-xs">
+                Connect your wallet to claim your earned $LOGIQ tokens!
               </p>
             </div>
           </div>
-          {!isConnected && (
-            <button
-              onClick={connectWallet}
-              className="mt-2 w-full bg-orange-500/30 hover:bg-orange-500/40 text-orange-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-            >
-              Connect Wallet to Start Earning
-            </button>
-          )}
+          <button
+            onClick={connectWallet}
+            className="mt-2 w-full bg-blue-500/30 hover:bg-blue-500/40 text-blue-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          >
+            Connect Wallet to Claim
+          </button>
         </div>
       )}
 

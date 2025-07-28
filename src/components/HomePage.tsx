@@ -142,12 +142,12 @@ export default function HomePage({ onStartGame, onShowAbout }: HomePageProps) {
               disabled={isLoading}
               className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 neon-glow disabled:opacity-50 disabled:hover:scale-100"
             >
-              {isLoading ? '🔄 Connecting...' : isConnected ? '🎮 Start Playing Now' : '🔗 Connect Wallet & Play'}
+              {isLoading ? '🔄 Connecting...' : isConnected ? '🎮 Play Now' : '🎮 Play Now'}
             </button>
             
             {!isConnected && !isLoading && (
               <p className="text-gray-400 text-sm mt-2">
-                MetaMask wallet required to play LogiPlay
+                Click to start playing instantly! Wallet connection optional.
               </p>
             )}
           </div>

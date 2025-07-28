@@ -229,7 +229,7 @@ export default function HomePage({ onShowAbout, onShowGames, onShowLeaderboard }
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 <span className="relative flex items-center space-x-3">
                   <span className="text-2xl">🎮</span>
-                  <span>Try Demo Mode</span>
+                  <span>Play Now</span>
                 </span>
               </button>
 
@@ -251,7 +251,7 @@ export default function HomePage({ onShowAbout, onShowGames, onShowLeaderboard }
               {/* Info Text */}
               <div className="text-center max-w-md">
                 <p className="text-white/80 text-sm mb-2">
-                  🎮 <span className="text-green-400 font-semibold">Demo Mode</span>: Try all games instantly, no wallet needed
+                  🎮 <span className="text-green-400 font-semibold">Play Now</span>: Start instantly, no wallet needed
                 </p>
                 <p className="text-white/80 text-sm">
                   💰 <span className="text-blue-400 font-semibold">Earn Mode</span>: Connect wallet to claim real $LOGIQ tokens
