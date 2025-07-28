@@ -22,6 +22,8 @@ interface GameContextType {
   totalClaimedTokens: number;
   claimHistory: Array<{ amount: number; gameType: GameType; timestamp: number; }>;
   gameSessions: GameSession[];
+  isDemo: boolean;
+  demoTokens: number;
   startGame: (gameType?: GameType) => void;
   movePlayer: (direction: 'up' | 'down' | 'left' | 'right') => void;
   nextLevel: () => void;
@@ -41,6 +43,8 @@ interface GameContextType {
   getLevelProgress: () => number;
   getMilestone: () => { rank: string; emoji: string; color: string; nextRank: string | null; tokensNeeded: number };
   formatTokens: (tokens: number) => string;
+  setDemoMode: (demo: boolean) => void;
+  resetDemoProgress: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -90,6 +94,9 @@ export const calculateGameTokenReward = (gameType: GameType, score: number, diff
 };
 
 export function GameProvider({ children }: GameProviderProps) {
+  const [isDemo, setIsDemo] = useState(true); // Default demo mode
+  const [demoTokens, setDemoTokens] = useState(0);
+  
   const [gameState, setGameState] = useState<GameState>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
@@ -454,13 +461,30 @@ export function GameProvider({ children }: GameProviderProps) {
   };
 
   const finishGame = () => {
+    const tokensEarned = calculateGameTokenReward(currentGame, 1, 'normal');
+    
     setGameState(prev => ({
       ...prev,
       isCompleted: true,
     }));
+
+    // Add tokens to demo or real balance
+    if (isDemo) {
+      setDemoTokens(prev => prev + tokensEarned);
+    } else {
+      setGameState(prev => ({
+        ...prev,
+        tokens: prev.tokens + tokensEarned
+      }));
+    }
   };
 
   const claimRewards = () => {
+    // Prevent claiming in demo mode
+    if (isDemo) {
+      return 0;
+    }
+    
     const totalTokens = gameState.tokens;
     
     setTotalClaimedTokens((prev: number) => prev + totalTokens);
@@ -540,15 +564,36 @@ export function GameProvider({ children }: GameProviderProps) {
     console.log('✅ Wallet data synced successfully');
   };
 
+  // Demo mode functions
+  const setDemoMode = (demo: boolean) => {
+    setIsDemo(demo);
+    if (!demo) {
+      // When exiting demo mode, reset demo tokens
+      setDemoTokens(0);
+    }
+  };
+
+  const resetDemoProgress = () => {
+    setDemoTokens(0);
+    setGameState(prev => ({
+      ...prev,
+      score: 0,
+      tokens: 0,
+      level: 1
+    }));
+  };
+
   return (
     <GameContext.Provider
       value={{
-        gameState,
+        gameState: isDemo ? { ...gameState, tokens: demoTokens } : gameState,
         currentGame,
         claimedTokens,
         totalClaimedTokens,
         claimHistory,
         gameSessions,
+        isDemo,
+        demoTokens,
         startGame,
         movePlayer,
         nextLevel,
@@ -568,6 +613,8 @@ export function GameProvider({ children }: GameProviderProps) {
         getLevelProgress,
         getMilestone,
         formatTokens,
+        setDemoMode,
+        resetDemoProgress,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ interface HomePageProps {
 
 export default function HomePage({ onShowAbout, onShowGames, onShowLeaderboard }: HomePageProps) {
   const { isConnected, address, connectWallet, isLoading } = useWallet();
-  const { gameState, totalClaimedTokens, syncWalletData, getUserLevel, getLevelProgress, getMilestone, formatTokens } = useGame();
+  const { gameState, totalClaimedTokens, syncWalletData, getUserLevel, getLevelProgress, getMilestone, formatTokens, setDemoMode } = useGame();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
 
@@ -36,13 +36,26 @@ export default function HomePage({ onShowAbout, onShowGames, onShowLeaderboard }
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const handleStartGame = () => {
-    if (!isConnected) {
-      connectWallet().then(() => {});
-      return;
-    }
+  const handleDemoMode = () => {
+    setDemoMode(true);
     if (onShowGames) {
-      onShowGames(); // Navigate to games center
+      onShowGames(); // Navigate to games center in demo mode
+    }
+  };
+
+  const handleWalletMode = () => {
+    if (!isConnected) {
+      connectWallet().then(() => {
+        setDemoMode(false);
+        if (onShowGames) {
+          onShowGames();
+        }
+      });
+    } else {
+      setDemoMode(false);
+      if (onShowGames) {
+        onShowGames();
+      }
     }
   };
 
@@ -208,38 +221,42 @@ export default function HomePage({ onShowAbout, onShowGames, onShowLeaderboard }
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
+              {/* Demo Mode Button */}
               <button
-                onClick={handleStartGame}
+                onClick={handleDemoMode}
+                className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700 text-white px-12 py-6 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <span className="relative flex items-center space-x-3">
+                  <span className="text-2xl">🎮</span>
+                  <span>Try Demo Mode</span>
+                </span>
+              </button>
+
+              {/* Wallet Mode Button */}
+              <button
+                onClick={handleWalletMode}
                 disabled={isLoading}
                 className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 hover:from-purple-700 hover:via-blue-700 hover:to-cyan-700 text-white px-12 py-6 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:scale-100 shadow-2xl group"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 <span className="relative flex items-center space-x-3">
-                  <span className="text-2xl">🎮</span>
+                  <span className="text-2xl">💰</span>
                   <span>
-                    {isLoading ? 'Connecting...' : isConnected ? 'Start Playing Now' : 'Connect & Play'}
+                    {isLoading ? 'Connecting...' : isConnected ? 'Play & Earn $LOGIQ' : 'Connect & Earn'}
                   </span>
                 </span>
               </button>
 
-              {!isConnected && (
-                <div className="text-center">
-                  <p className="text-white/80 text-lg mb-4">
-                    MetaMask wallet required to play
-                  </p>
-                  <a
-                    href="https://metamask.io/download/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-orange-500/20 backdrop-blur-xl hover:bg-orange-500/30 text-orange-300 px-10 py-6 rounded-2xl font-bold text-xl border border-orange-400/40 hover:border-orange-400/60 transition-all duration-300 transform hover:scale-105 inline-block"
-                  >
-                    <span className="flex items-center space-x-3">
-                      <span className="text-2xl">🦊</span>
-                      <span>Install MetaMask</span>
-                    </span>
-                  </a>
-                </div>
-              )}
+              {/* Info Text */}
+              <div className="text-center max-w-md">
+                <p className="text-white/80 text-sm mb-2">
+                  🎮 <span className="text-green-400 font-semibold">Demo Mode</span>: Try all games instantly, no wallet needed
+                </p>
+                <p className="text-white/80 text-sm">
+                  💰 <span className="text-blue-400 font-semibold">Earn Mode</span>: Connect wallet to claim real $LOGIQ tokens
+                </p>
+              </div>
             </div>
           </div>
 

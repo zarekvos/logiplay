@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useGame } from '../contexts/GameContext';
+import { useWallet } from '../contexts/WalletContext';
 
 export default function ClaimedTokensDisplay() {
-  const { totalClaimedTokens, claimHistory, getUserLevel, getNextLevelTokens, getLevelProgress, getMilestone, formatTokens: gameFormatTokens } = useGame();
+  const { totalClaimedTokens, claimHistory, getUserLevel, getNextLevelTokens, getLevelProgress, getMilestone, formatTokens: gameFormatTokens, isDemo, demoTokens } = useGame();
+  const { isConnected, connectWallet } = useWallet();
   const [showHistory, setShowHistory] = useState(false);
 
   const formatTokens = (amount: number): string => {
@@ -34,7 +36,7 @@ export default function ClaimedTokensDisplay() {
     <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-white flex items-center">
-          💰 Total Claimed Tokens
+          💰 {isDemo ? 'Demo Tokens' : 'Total Claimed Tokens'}
         </h3>
         <button
           onClick={() => setShowHistory(!showHistory)}
@@ -43,6 +45,29 @@ export default function ClaimedTokensDisplay() {
           {showHistory ? 'Hide History' : 'Show History'}
         </button>
       </div>
+
+      {/* Demo Mode Indicator */}
+      {isDemo && (
+        <div className="bg-orange-500/20 border border-orange-400/30 rounded-lg p-3 mb-4">
+          <div className="flex items-center space-x-2">
+            <span className="text-orange-400 text-lg">🎮</span>
+            <div className="flex-1">
+              <p className="text-orange-200 font-medium text-sm">Demo Mode Active</p>
+              <p className="text-orange-300/80 text-xs">
+                Tokens shown are for demo only. Connect wallet to earn real $LOGIQ!
+              </p>
+            </div>
+          </div>
+          {!isConnected && (
+            <button
+              onClick={connectWallet}
+              className="mt-2 w-full bg-orange-500/30 hover:bg-orange-500/40 text-orange-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Connect Wallet to Start Earning
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Level Progress Section */}
       <div className="bg-black/20 rounded-lg p-4 mb-4">
@@ -74,11 +99,14 @@ export default function ClaimedTokensDisplay() {
 
       {/* Total Claimed Display */}
       <div className="text-center mb-4">
-        <div className="text-3xl font-bold text-green-400 mb-2" title={`${totalClaimedTokens.toLocaleString()} $LOGIQ`}>
-          {formatTokens(totalClaimedTokens)} $LOGIQ
+        <div className="text-3xl font-bold text-green-400 mb-2" title={`${isDemo ? demoTokens : totalClaimedTokens.toLocaleString()} $LOGIQ`}>
+          {formatTokens(isDemo ? demoTokens : totalClaimedTokens)} $LOGIQ
         </div>
         <p className="text-gray-400 text-sm">
-          Total tokens claimed from {claimHistory.length} claim{claimHistory.length !== 1 ? 's' : ''}
+          {isDemo 
+            ? `Demo tokens earned from gameplay` 
+            : `Total tokens claimed from ${claimHistory.length} claim${claimHistory.length !== 1 ? 's' : ''}`
+          }
         </p>
       </div>
 
