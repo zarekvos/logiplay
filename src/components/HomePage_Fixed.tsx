@@ -8,7 +8,7 @@ interface HomePageProps {
   onShowAbout?: () => void;
 }
 
-export default function HomePage({ onStartGame, onShowAbout }: HomePageProps) {
+export default function HomePage({ onStartGame }: HomePageProps) {
   const { isConnected, address, connectWallet, isLoading } = useWallet();
   const { gameState } = useGame();
 

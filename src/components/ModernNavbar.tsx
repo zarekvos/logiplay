@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Gamepad2, Trophy, Info, Wallet } from 'lucide-react';
+import { Gamepad2, Trophy, Info } from 'lucide-react';
 
 interface ModernNavbarProps {
   onShowAbout?: () => void;

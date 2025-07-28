@@ -11,7 +11,7 @@ interface HomePageProps {
   onShowLeaderboard?: () => void;
 }
 
-export default function HomePage({ onStartGame, onShowAbout, onShowGames, onShowLeaderboard }: HomePageProps) {
+export default function HomePage({ onShowAbout, onShowGames, onShowLeaderboard }: HomePageProps) {
   const { isConnected, address, connectWallet, isLoading } = useWallet();
   const { gameState, totalClaimedTokens, syncWalletData, getUserLevel, getLevelProgress, getMilestone, formatTokens } = useGame();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
