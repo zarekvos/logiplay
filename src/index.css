@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-900 text-white;
+  }
+}
+
+@layer components {
+  .maze-cell {
+    @apply w-4 h-4 border border-gray-200;
+  }
+  
+  .maze-wall {
+    @apply bg-gray-800;
+  }
+  
+  .maze-path {
+    @apply bg-gray-100;
+  }
+  
+  .maze-player {
+    @apply bg-blue-500 rounded-full relative;
+  }
+  
+  .maze-goal {
+    @apply bg-green-500 animate-pulse;
+  }
+  
+  .maze-visited {
+    @apply bg-gray-300;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+  }
+
+  .neon-glow {
+    @apply shadow-lg shadow-blue-500/20;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1;
+  }
+
+  .text-rainbow {
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 2s linear infinite;
+  }
+
+  @keyframes rainbow {
+    0%, 100% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 100% 0;
+    }
+  }
+}
