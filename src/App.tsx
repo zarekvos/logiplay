@@ -9,6 +9,7 @@ import GameContainer from './components/GameContainer';
 import GuessNumberGameEnhanced from './components/games/GuessNumberGameEnhanced';
 import TicTacToeGameEnhanced from './components/games/TicTacToeGameEnhanced';
 import MemoryGameEnhanced from './components/games/MemoryGameEnhanced';
+import SnakeAndLadderGame from './components/games/SnakeGame';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'about' | 'game' | 'games' | 'leaderboard'>('home');
@@ -66,6 +67,7 @@ function App() {
               {selectedGameId === 2 && <GuessNumberGameEnhanced onBack={handleBackToGames} />}
               {selectedGameId === 3 && <TicTacToeGameEnhanced onBack={handleBackToGames} />}
               {selectedGameId === 4 && <MemoryGameEnhanced onBack={handleBackToGames} />}
+              {selectedGameId === 5 && <SnakeAndLadderGame onBack={handleBackToGames} />}
             </>
           )}
         </div>

@@ -20,7 +20,7 @@ export default function GamesCenter({ onBackToHome, onStartGame }: GamesCenterPr
       icon: '🏛️',
       secondaryIcon: '🗝️',
       difficulty: 'Easy',
-      reward: '500K LOGIQ',
+      reward: '500-5K LOGIQ',
       color: 'from-emerald-500 via-teal-600 to-cyan-700',
       theme: 'Adventure & Exploration',
       features: ['🗺️ Dynamic Maps', '💎 Hidden Treasures', '⚡ Power-ups']
@@ -32,7 +32,7 @@ export default function GamesCenter({ onBackToHome, onStartGame }: GamesCenterPr
       icon: '🧠',
       secondaryIcon: '⚡',
       difficulty: 'Medium',
-      reward: '1.25M LOGIQ',
+      reward: '1K-25K LOGIQ',
       color: 'from-purple-500 via-indigo-600 to-blue-700',
       theme: 'AI & Neural Networks',
       features: ['🔮 Neural Patterns', '🤖 AI Challenges', '💡 Logic Circuits']
@@ -44,7 +44,7 @@ export default function GamesCenter({ onBackToHome, onStartGame }: GamesCenterPr
       icon: '🔐',
       secondaryIcon: '🕵️',
       difficulty: 'Hard',
-      reward: '3.5M LOGIQ',
+      reward: '5K-100K LOGIQ',
       color: 'from-orange-500 via-red-600 to-pink-700',
       theme: 'Cryptography & Detective',
       features: ['🔑 Secret Keys', '📜 Ancient Codes', '🎯 Pattern Hunt']
@@ -56,10 +56,22 @@ export default function GamesCenter({ onBackToHome, onStartGame }: GamesCenterPr
       icon: '⚛️',
       secondaryIcon: '🌌',
       difficulty: 'Expert',
-      reward: '7.5M LOGIQ',
+      reward: '10K-1M LOGIQ',
       color: 'from-yellow-400 via-orange-500 to-red-600',
       theme: 'Quantum Physics & Math',
       features: ['🌠 Quantum Mechanics', '🔢 Multi-dimensional', '🚀 Space-time Math']
+    },
+    {
+      id: 5,
+      title: 'Snake & Ladder',
+      description: 'Race against AI in this classic board game. Roll dice, climb ladders, avoid snakes!',
+      icon: '🐍',
+      secondaryIcon: '🪜',
+      difficulty: 'Easy',
+      reward: '1K-10K LOGIQ',
+      color: 'from-green-500 via-lime-600 to-emerald-700',
+      theme: 'Classic vs AI',
+      features: ['🤖 AI Opponent', '🎲 Dice Mechanics', '� Win-based Rewards']
     }
   ];
 
@@ -115,7 +127,8 @@ export default function GamesCenter({ onBackToHome, onStartGame }: GamesCenterPr
                         game.id === 1 ? 'bg-emerald-400' :
                         game.id === 2 ? 'bg-purple-400' :
                         game.id === 3 ? 'bg-orange-400' :
-                        'bg-yellow-400'
+                        game.id === 4 ? 'bg-yellow-400' :
+                        'bg-green-400'
                       }`}
                       style={{
                         left: `${Math.random() * 100}%`,
@@ -152,7 +165,8 @@ export default function GamesCenter({ onBackToHome, onStartGame }: GamesCenterPr
                       game.id === 1 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 group-hover:bg-emerald-500/30' :
                       game.id === 2 ? 'bg-purple-500/20 text-purple-300 border-purple-500/30 group-hover:bg-purple-500/30' :
                       game.id === 3 ? 'bg-orange-500/20 text-orange-300 border-orange-500/30 group-hover:bg-orange-500/30' :
-                      'bg-yellow-500/20 text-yellow-300 border-yellow-500/30 group-hover:bg-yellow-500/30'
+                      game.id === 4 ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30 group-hover:bg-yellow-500/30' :
+                      'bg-green-500/20 text-green-300 border-green-500/30 group-hover:bg-green-500/30'
                     }`}>
                       {game.theme}
                     </span>
